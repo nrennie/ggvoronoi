@@ -4,8 +4,7 @@
 \alias{voronoi_polygon}
 \title{Voronoi Diagram from Data Frame}
 \usage{
-voronoi_polygon(data, x = "x", y = "y", outline = NULL,
-  data.frame = FALSE)
+voronoi_polygon(data, x = "x", y = "y", outline = NULL, data.frame = FALSE)
 }
 \arguments{
 \item{data}{\code{data.frame} containing a set of points to make voronoi regions and any additional desired columns.}
@@ -23,19 +22,22 @@ Create a Voronoi diagram for analysis or plotting with \code{\link[ggplot2]{geom
 }
 \examples{
 set.seed(45056)
-x <- sample(1:200,100)
-y <- sample(1:200,100)
+x <- sample(1:200, 100)
+y <- sample(1:200, 100)
 points <- data.frame(x, y,
-                     distance = sqrt((x-100)^2 + (y-100)^2))
-circle <- data.frame(x = 100*(1+cos(seq(0, 2*pi, length.out = 2500))),
-                     y = 100*(1+sin(seq(0, 2*pi, length.out = 2500))),
-                     group = rep(1,2500))
+  distance = sqrt((x - 100)^2 + (y - 100)^2)
+)
+circle <- data.frame(
+  x = 100 * (1 + cos(seq(0, 2 * pi, length.out = 2500))),
+  y = 100 * (1 + sin(seq(0, 2 * pi, length.out = 2500))),
+  group = rep(1, 2500)
+)
 
-vor_spdf <- voronoi_polygon(data=points,x="x",y="y",outline=circle)
+vor_spdf <- voronoi_polygon(data = points, x = "x", y = "y", outline = circle)
 vor_df <- fortify_voronoi(vor_spdf)
 
 ggplot(vor_df) +
-    geom_polygon(aes(x=x,y=y,fill=distance,group=group))
+  geom_polygon(aes(x = x, y = y, fill = distance, group = group))
 }
 \keyword{choropleth}
 \keyword{voronoi,}

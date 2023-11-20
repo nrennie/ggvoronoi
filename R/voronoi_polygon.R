@@ -107,7 +107,7 @@ voronoi_polygon <- function(data, x = "x", y = "y", outline = NULL, data.frame =
     sf::st_agr(sf_x) <- "constant"
     sf::st_agr(sf_y) <- "constant"
     vor_spdf <- sf::st_intersection(sf_x, sf_y)
-    vor_spdf <- sf:::as_Spatial(vor_spdf)
+    vor_spdf <- sf::as_Spatial(vor_spdf)
   }
 
   if (data.frame == FALSE) {
