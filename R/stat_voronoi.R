@@ -1,32 +1,34 @@
 #' Voronoi Diagrams with ggplot2
 #'
-#' See \code{\link[ggvoronoi]{geom_voronoi}} for general use. 
+#' See \code{\link[ggvoronoi]{geom_voronoi}} for general use.
 #' Use \code{geom="polygon"} for choropleth heatmap or \code{geom="path"} for region borders.
 #' @inheritParams ggplot2::layer
 #' @inheritParams ggplot2::geom_point
 #' @param outline \code{data.frame} with first column x/longitude, second column y/latitude, and a group column denoting islands or pieces.
 #' @keywords voronoi, choropleth
-#' @import ggplot2 sp deldir rgeos raster
+#' @import ggplot2 sp deldir raster
 #' @export
 #' @examples
 #' set.seed(45056)
-#' x <- sample(1:200,100)
-#' y <- sample(1:200,100)
+#' x <- sample(1:200, 100)
+#' y <- sample(1:200, 100)
 #' points <- data.frame(x, y,
-#'                      distance = sqrt((x-100)^2 + (y-100)^2))
-#' circle <- data.frame(x = 100*(1+cos(seq(0, 2*pi, length.out = 2500))),
-#'                      y = 100*(1+sin(seq(0, 2*pi, length.out = 2500))),
-#'                      group = rep(1,2500))
+#'   distance = sqrt((x - 100)^2 + (y - 100)^2)
+#' )
+#' circle <- data.frame(
+#'   x = 100 * (1 + cos(seq(0, 2 * pi, length.out = 2500))),
+#'   y = 100 * (1 + sin(seq(0, 2 * pi, length.out = 2500))),
+#'   group = rep(1, 2500)
+#' )
 #'
 #' ggplot(points) +
-#'     stat_voronoi(aes(x=x,y=y,fill=distance))
+#'   stat_voronoi(aes(x = x, y = y, fill = distance))
 #'
 #' ggplot(points) +
-#'     stat_voronoi(aes(x=x,y=y),geom="path")
+#'   stat_voronoi(aes(x = x, y = y), geom = "path")
 #'
 #' ggplot(points) +
-#'     stat_voronoi(aes(x=x,y=y,fill=distance),outline=circle)
-
+#'   stat_voronoi(aes(x = x, y = y, fill = distance), outline = circle)
 stat_voronoi <-
   function(mapping = NULL,
            data = NULL,
@@ -37,10 +39,10 @@ stat_voronoi <-
            inherit.aes = TRUE,
            outline = NULL,
            ...) {
-    if(is.null(mapping)){
-        mapping = aes(group=NA)
-    }else{
-        mapping$group=NA
+    if (is.null(mapping)) {
+      mapping <- aes(group = NA)
+    } else {
+      mapping$group <- NA
     }
     layer(
       stat = StatVoronoi,
@@ -63,7 +65,6 @@ StatVoronoi <- ggproto(
   "StatVoronoi",
   Stat,
   required_aes = c("x", "y"),
-
   compute_group = function(data, scales, outline = NULL) {
     voronoi_polygon(
       data,
@@ -73,5 +74,5 @@ StatVoronoi <- ggproto(
       data.frame = TRUE
     )
   },
-  default_aes = aes(fill=NA,group=NA)
+  default_aes = aes(fill = NA, group = NA)
 )
